@@ -14,9 +14,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 
 
@@ -30,8 +30,8 @@ public class MainActivity extends Activity {
 
 
     public void sendBtMsg(String msg2send){
-        //UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); //Standard SerialPortService ID
-        UUID uuid = UUID.fromString("94f39d29-7d6d-437d-973b-fba39e49d4ee"); //Standard SerialPortService ID
+
+        UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); //Standard SerialPortService ID
         try {
 
             mmSocket = mmDevice.createRfcommSocketToServiceRecord(uuid);
@@ -39,8 +39,9 @@ public class MainActivity extends Activity {
                 mmSocket.connect();
             }
 
-            String msg = msg2send;
-            //msg += "\n";
+            String msg;
+            msg = msg2send;
+
             OutputStream mmOutputStream = mmSocket.getOutputStream();
             mmOutputStream.write(msg.getBytes());
 
@@ -58,8 +59,11 @@ public class MainActivity extends Activity {
 
         final Handler handler = new Handler();
 
-        final TextView myLabel = (TextView) findViewById(R.id.btResult);
-        final Button distButton = (Button) findViewById(R.id.distButton);
+        final TextView myLabel = findViewById(R.id.btResult);
+        final Button distButton = findViewById(R.id.distButton);
+        final Switch switch1 = findViewById(R.id.switch1);
+        Boolean simpleSwitch = switch1.isChecked();
+
 
 
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -142,7 +146,6 @@ public class MainActivity extends Activity {
 
 
         // start temp button handler
-
         distButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on temp button click
@@ -152,7 +155,7 @@ public class MainActivity extends Activity {
             }
         });
 
-
+        //switch1.setOnClickListener(new );
 
 
         if(!mBluetoothAdapter.isEnabled())
@@ -175,14 +178,6 @@ public class MainActivity extends Activity {
             }
         }
 
-
     }
-
-    // @Override
-  //  public boolean onCreateOptionsMenu(Menu menu) {
-  //      // Inflate the menu; this adds items to the action bar if it is present.
-  //      getMenuInflater().inflate(R.menu.main, menu);
-  //      return true;
-  //  }
 
 }
